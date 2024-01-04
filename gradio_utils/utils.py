@@ -2,9 +2,9 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
-def vis_camera(RT_list, rescale_T=1):
+def vis_camera(RT_list, rescale_T=1, index=0):
     fig = go.Figure()
-    showticklabels = True
+    showticklabels = False
     visible = True
     scene_bounds = 2
     base_radius = 2.5
@@ -14,14 +14,17 @@ def vis_camera(RT_list, rescale_T=1):
     edges = [(0, 1), (0, 2), (0, 3), (1, 2), (2, 3), (3, 1), (3, 4)] 
     
     colors = px.colors.qualitative.Plotly
-    
+        
     cone_list = []
     n = len(RT_list)
     for i, RT in enumerate(RT_list):
         R = RT[:,:3]
         T = RT[:,-1]/rescale_T
         cone = calc_cam_cone_pts_3d(R, T, fov_deg)
-        cone_list.append((cone, (i*1/n, "green"), f"view_{i}"))
+        if index==i:
+            cone_list.append((cone, (0, "yellow"), f"view_{i}"))
+        else:
+            cone_list.append((cone, (0, "green"), f"view_{i}"))
 
     
     for (cone, clr, legend) in cone_list:
@@ -34,12 +37,14 @@ def vis_camera(RT_list, rescale_T=1):
                 line=dict(color=clr, width=3),
                 name=legend, showlegend=(i == 0))) 
     fig.update_layout(
-                    height=500,
+                    plot_bgcolor= 'rgba(0, 0, 0, 0)',
+                    paper_bgcolor= 'rgba(0, 0, 0, 0)',
+                    modebar = dict(bgcolor='rgba(0, 0, 0, 0)'),
+                    height=256,
                     autosize=True,
                     # hovermode=False,
                     margin=go.layout.Margin(l=0, r=0, b=0, t=0),
-                    
-                    showlegend=True,
+                    showlegend=False,
                     legend=dict(
                         yanchor='bottom',
                         y=0.01,
@@ -57,6 +62,7 @@ def vis_camera(RT_list, rescale_T=1):
 
                         xaxis=dict(
                             range=[-scene_bounds, scene_bounds],
+                            showbackground=False,
                             showticklabels=showticklabels,
                             visible=visible,
                         ),
@@ -64,6 +70,7 @@ def vis_camera(RT_list, rescale_T=1):
                         
                         yaxis=dict(
                             range=[-scene_bounds, scene_bounds],
+                            showbackground=False,
                             showticklabels=showticklabels,
                             visible=visible,
                         ),
@@ -71,6 +78,7 @@ def vis_camera(RT_list, rescale_T=1):
                         
                         zaxis=dict(
                             range=[-scene_bounds, scene_bounds],
+                            showbackground=False,
                             showticklabels=showticklabels,
                             visible=visible,
                         )

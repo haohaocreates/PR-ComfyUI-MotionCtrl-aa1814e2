@@ -18,6 +18,12 @@ Four nodes `Motionctrl Sample` & `Load Motion Camera Preset` & `Load Motion Traj
 
 [Motion Traj Tool](https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html) Generate motion trajectories
 
+<img src="assets/traj.png" raw=true>
+
+[Motion Camera Tool](https://chaojie.github.io/ComfyUI-MotionCtrl/tools/index.html) Generate motion camera points
+
+<img src="assets/camera.png" raw=true>
+
 ## Examples
 
 base workflow
@@ -25,6 +31,13 @@ base workflow
 <img src="assets/base_wf.png" raw=true>
 
 https://github.com/chaojie/ComfyUI-MotionCtrl/blob/main/workflow_threenodes.json
+
+<video controls autoplay="true">
+    <source 
+   src="assets/dog.mp4" 
+   type="video/mp4" 
+  />
+</video>
 
 unofficial implementation "MotionCtrl deployed on AnimateDiff" workflow:
 
