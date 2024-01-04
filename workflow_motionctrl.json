@@ -411,7 +411,7 @@
           "hidden": false,
           "paused": false,
           "params": {
-            "filename": "AnimateDiff_00419.mp4",
+            "filename": "AnimateDiff_00451.mp4",
             "subfolder": "",
             "type": "output",
             "format": "video/h264-mp4"
@@ -550,7 +550,7 @@
         "Node name for S&R": "KSampler"
       },
       "widgets_values": [
-        97583807913213,
+        557139385238250,
         "randomize",
         8,
         2,
@@ -598,95 +598,13 @@
           "hidden": false,
           "paused": false,
           "params": {
-            "filename": "AnimateDiff_00421.gif",
+            "filename": "AnimateDiff_00450.gif",
             "subfolder": "",
             "type": "output",
             "format": "image/gif"
           }
         }
       }
-    },
-    {
-      "id": 8,
-      "type": "ImageScale",
-      "pos": [
-        457,
-        232
-      ],
-      "size": {
-        "0": 315,
-        "1": 130
-      },
-      "flags": {},
-      "order": 12,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 34
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            6,
-            30
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageScale"
-      },
-      "widgets_values": [
-        "nearest-exact",
-        512,
-        513,
-        "disabled"
-      ]
-    },
-    {
-      "id": 26,
-      "type": "Select Image Indices",
-      "pos": [
-        214,
-        541
-      ],
-      "size": {
-        "0": 315,
-        "1": 58
-      },
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 33
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            34
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Select Image Indices"
-      },
-      "widgets_values": [
-        "0,4,7,11,15,19,23,27,31"
-      ]
     },
     {
       "id": 24,
@@ -794,11 +712,93 @@
       ]
     },
     {
+      "id": 26,
+      "type": "Select Image Indices",
+      "pos": [
+        475,
+        114
+      ],
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 33
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            34
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Select Image Indices"
+      },
+      "widgets_values": [
+        "0,4,7,11,15,19,23,27,31"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "ImageScale",
+      "pos": [
+        474,
+        247
+      ],
+      "size": {
+        "0": 315,
+        "1": 130
+      },
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 34
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            6,
+            30
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "nearest-exact",
+        512,
+        513,
+        "disabled"
+      ]
+    },
+    {
       "id": 25,
       "type": "FakeScribblePreprocessor",
       "pos": [
-        566,
-        458
+        469,
+        457
       ],
       "size": {
         "0": 319.20001220703125,
@@ -843,7 +843,7 @@
       ],
       "size": {
         "0": 400,
-        "1": 320
+        "1": 344
       },
       "flags": {},
       "order": 4,
@@ -872,7 +872,8 @@
         2048,
         "fixed",
         "https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html",
-        true
+        false,
+        false
       ]
     }
   ],
