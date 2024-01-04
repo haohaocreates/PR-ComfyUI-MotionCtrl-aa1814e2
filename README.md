@@ -18,6 +18,8 @@ Four nodes `Motionctrl Sample` & `Load Motion Camera Preset` & `Load Motion Traj
 
 [Motion Traj Tool](https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html) Generate motion trajectories
 
+[Motion Camera Tool](https://chaojie.github.io/ComfyUI-MotionCtrl/tools/index.html) Generate motion camera points
+
 ## Examples
 
 base workflow
