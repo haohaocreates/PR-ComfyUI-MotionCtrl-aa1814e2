@@ -32,7 +32,12 @@ base workflow
 
 https://github.com/chaojie/ComfyUI-MotionCtrl/blob/main/workflow_threenodes.json
 
-<video src="assets/dog.mp4" autoplay="true"></video>
+<video controls autoplay="true">
+    <source 
+   src="assets/dog.mp4" 
+   type="video/mp4" 
+  />
+</video>
 
 unofficial implementation "MotionCtrl deployed on AnimateDiff" workflow:
 
