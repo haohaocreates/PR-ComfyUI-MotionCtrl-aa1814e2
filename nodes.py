@@ -5,6 +5,7 @@ import json
 import math
 import os
 import tempfile
+import folder_paths
 
 import imageio
 import sys
@@ -193,6 +194,7 @@ class MotionctrlSample:
                 "traj_tool": ("STRING",{"multiline": False, "default": "https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html"}),
                 "draw_traj_dot": ("BOOLEAN", {"default": False}),#, "label_on": "draw", "label_off": "not draw"
                 "draw_camera_dot": ("BOOLEAN", {"default": False}),
+                "ckpt_name": (folder_paths.get_filename_list("checkpoints"), {"default": "motionctrl.pth"}),
             }
         }
 
@@ -200,10 +202,13 @@ class MotionctrlSample:
     FUNCTION = "run_inference"
     CATEGORY = "motionctrl"
         
-    def run_inference(self,prompt,camera,traj,frame_length,steps,seed,traj_tool="https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html",draw_traj_dot=False,draw_camera_dot=False):
+    def run_inference(self,prompt,camera,traj,frame_length,steps,seed,traj_tool="https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html",draw_traj_dot=False,draw_camera_dot=False,ckpt_name="motionctrl.pth"):
         gpu_num=1
         gpu_no=0
-        args={"savedir":f'./output/both_seed20230211',"ckpt_path":"./models/checkpoints/motionctrl.pth","adapter_ckpt":None,"base":"./custom_nodes/ComfyUI-MotionCtrl/configs/inference/config_both.yaml","condtype":"both","prompt_dir":None,"n_samples":1,"ddim_steps":50,"ddim_eta":1.0,"bs":1,"height":256,"width":256,"unconditional_guidance_scale":1.0,"unconditional_guidance_scale_temporal":None,"seed":1234,"cond_T":800,"save_imgs":True,"cond_dir":"./custom_nodes/ComfyUI-MotionCtrl/examples/"}
+        ckpt_path = folder_paths.get_full_path("checkpoints", ckpt_name)
+        comfy_path = os.path.dirname(folder_paths.__file__)
+        config_path = os.path.join(comfy_path, 'custom_nodes/ComfyUI-MotionCtrl/configs/inference/config_both.yaml')
+        args={"savedir":f'./output/both_seed20230211',"ckpt_path":f"{ckpt_path}","adapter_ckpt":None,"base":f"{config_path}","condtype":"both","prompt_dir":None,"n_samples":1,"ddim_steps":50,"ddim_eta":1.0,"bs":1,"height":256,"width":256,"unconditional_guidance_scale":1.0,"unconditional_guidance_scale_temporal":None,"seed":1234,"cond_T":800,"save_imgs":True,"cond_dir":"./custom_nodes/ComfyUI-MotionCtrl/examples/"}
         
         prompts = prompt
         RT = process_camera(camera,frame_length).reshape(-1,12)
