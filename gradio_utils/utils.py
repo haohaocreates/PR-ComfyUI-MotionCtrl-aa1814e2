@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 def vis_camera(RT_list, rescale_T=1, index=0):
     fig = go.Figure()
     showticklabels = False
-    visible = False
+    visible = True
     scene_bounds = 2
     base_radius = 2.5
     zoom_scale = 1.5
@@ -62,6 +62,7 @@ def vis_camera(RT_list, rescale_T=1, index=0):
 
                         xaxis=dict(
                             range=[-scene_bounds, scene_bounds],
+                            showbackground=False,
                             showticklabels=showticklabels,
                             visible=visible,
                         ),
@@ -69,6 +70,7 @@ def vis_camera(RT_list, rescale_T=1, index=0):
                         
                         yaxis=dict(
                             range=[-scene_bounds, scene_bounds],
+                            showbackground=False,
                             showticklabels=showticklabels,
                             visible=visible,
                         ),
@@ -76,6 +78,7 @@ def vis_camera(RT_list, rescale_T=1, index=0):
                         
                         zaxis=dict(
                             range=[-scene_bounds, scene_bounds],
+                            showbackground=False,
                             showticklabels=showticklabels,
                             visible=visible,
                         )
