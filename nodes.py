@@ -153,7 +153,8 @@ class LoadMotionCameraPreset:
     
     def load_motion_camera_preset(self, motion_camera):
         data="[]"
-        with open(f'custom_nodes/ComfyUI-MotionCtrl/examples/camera_poses/test_camera_{motion_camera}.json') as f:
+        comfy_path = os.path.dirname(folder_paths.__file__)
+        with open(f'{comfy_path}/custom_nodes/ComfyUI-MotionCtrl/examples/camera_poses/test_camera_{motion_camera}.json') as f:
             data = f.read()
         
         return (data,)
@@ -175,7 +176,8 @@ class LoadMotionTrajPreset:
     CATEGORY = "motionctrl"
     
     def load_motion_traj_preset(self, motion_traj, frame_length):
-        points = read_points(f'custom_nodes/ComfyUI-MotionCtrl/examples/trajectories/{motion_traj}.txt',frame_length)
+        comfy_path = os.path.dirname(folder_paths.__file__)
+        points = read_points(f'{comfy_path}/custom_nodes/ComfyUI-MotionCtrl/examples/trajectories/{motion_traj}.txt',frame_length)
         return (json.dumps(points),)
 
 class MotionctrlSample:
