@@ -12,7 +12,7 @@
 
 ## Nodes
 
-Four nodes `Motionctrl Sample` & `Load Motion Camera Preset` & `Load Motion Traj Preset` & `Select Image Indices`
+Four nodes `Load Motionctrl Checkpoint` & `Motionctrl Cond` & `Motionctrl Sample Simple` & `Load Motion Camera Preset` & `Load Motion Traj Preset` & `Select Image Indices` &`Motionctrl Sample`
 
 ## Tools
 
@@ -30,7 +30,7 @@ base workflow
 
 <img src="assets/base_wf.png" raw=true>
 
-https://github.com/chaojie/ComfyUI-MotionCtrl/blob/main/workflow_threenodes.json
+https://github.com/chaojie/ComfyUI-MotionCtrl/blob/main/workflow_base.json
 
 <video controls autoplay="true">
     <source 
