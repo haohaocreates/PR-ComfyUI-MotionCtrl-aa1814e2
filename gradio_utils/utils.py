@@ -20,7 +20,7 @@ def vis_camera(RT_list, rescale_T=1, index=0):
     for i, RT in enumerate(RT_list):
         R = RT[:,:3]
         T = RT[:,-1]/rescale_T
-        cone = calc_cam_cone_pts_3d(R, T, fov_deg)
+        cone = calc_cam_cone_pts_3d(R, T, fov_deg,scale=1)
         if index==i:
             cone_list.append((cone, (0, "yellow"), f"view_{i}"))
         else:
@@ -32,6 +32,7 @@ def vis_camera(RT_list, rescale_T=1, index=0):
             (x1, x2) = (cone[edge[0], 0], cone[edge[1], 0])
             (y1, y2) = (cone[edge[0], 1], cone[edge[1], 1])
             (z1, z2) = (cone[edge[0], 2], cone[edge[1], 2])
+            #print(f'{[x1,x2,y1,y2,z1,z2]}')
             fig.add_trace(go.Scatter3d(
                 x=[x1, x2], y=[y1, y2], z=[z1, z2], mode='lines',
                 line=dict(color=clr, width=3),

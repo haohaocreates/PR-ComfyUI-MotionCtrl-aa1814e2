@@ -94,14 +94,18 @@ def save_results(video, fps=10,traj="[]",draw_traj_dot=False,cameras=[],draw_cam
         #draw.ellipse((0,0,255,255),fill=(255,0,0), outline=(255,0,0))
         if draw_traj_dot:
             traj_list=json.loads(traj)
-            traj_point=traj_list[len(traj_list)-1]
-            if len(traj_list)>i:
-                traj_point=traj_list[i]
             
             #print(traj_point)
             size=3
-            draw.ellipse((traj_point[0]/4-size,traj_point[1]/4-size,traj_point[0]/4+size,traj_point[1]/4+size),fill=(255,0,0), outline=(255,0,0))
-        
+            for j in range(grid.shape[0]):
+                traj_point=traj_list[len(traj_list)-1]
+                if len(traj_list)>j:
+                    traj_point=traj_list[j]
+                if i==j:
+                    draw.ellipse((traj_point[0]/4-size,traj_point[1]/4-size,traj_point[0]/4+size,traj_point[1]/4+size),fill=(255,0,0), outline=(255,0,0))
+                else:
+                    draw.ellipse((traj_point[0]/4-size,traj_point[1]/4-size,traj_point[0]/4+size,traj_point[1]/4+size),fill=(255,255,255), outline=(255,255,255))
+            
         if draw_traj_dot:
             fig = vis_camera(cameras,1,i)
             camimg=Image.open(BytesIO(fig.to_image('png',256,256)))
