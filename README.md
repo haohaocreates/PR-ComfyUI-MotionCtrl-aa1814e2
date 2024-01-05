@@ -10,10 +10,6 @@
 
 3. Download the weights of MotionCtrl  [motionctrl.pth](https://huggingface.co/TencentARC/MotionCtrl/blob/main/motionctrl.pth) and put it to `ComfyUI/models/checkpoints`
 
-If you encounter Triton errors on Windows, please try the following: https://github.com/openai/triton/issues/1057
-for Win 11 - Python 3.10
-`pip install https://huggingface.co/r4ziel/xformers_pre_built/resolve/main/triton-2.0.0-cp310-cp310-win_amd64.whl`
-
 ## Nodes
 
 Four nodes `Motionctrl Sample` & `Load Motion Camera Preset` & `Load Motion Traj Preset` & `Select Image Indices`
