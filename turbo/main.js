@@ -135,7 +135,7 @@ function detect_change(){
 
     if(JSON.stringify(cmatrix)!=JSON.stringify(matrix)){
         if(userDrawnPixels1024.length>=16){
-            socket.emit('camera_poses', {roomid:roomid,camera_poses:JSON.stringify(cposes),trajs:JSON.stringify(userDrawnPixels1024)});
+            socket.emit('camera_poses', {roomid:roomid,prompt:document.getElementById('txt_prompt').value,camera_poses:JSON.stringify(cposes),trajs:JSON.stringify(userDrawnPixels1024)});
             userDrawnPixels1024=[userDrawnPixels1024[userDrawnPixels1024.length-1]];
             cposes=[matrix];
         }else{
@@ -144,7 +144,7 @@ function detect_change(){
         cmatrix=matrix;
     }else{
         if(cposes.length>1||userDrawnPixels1024.length>=16){
-            socket.emit('camera_poses', {roomid:roomid,camera_poses:JSON.stringify(cposes),trajs:JSON.stringify(userDrawnPixels1024)});
+            socket.emit('camera_poses', {roomid:roomid,prompt:document.getElementById('txt_prompt').value,camera_poses:JSON.stringify(cposes),trajs:JSON.stringify(userDrawnPixels1024)});
             userDrawnPixels1024=[userDrawnPixels1024[userDrawnPixels1024.length-1]];
         }
 

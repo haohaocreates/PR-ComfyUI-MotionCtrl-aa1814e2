@@ -130,6 +130,8 @@ def handle_message(message):
 @socketio.on('camera_poses')
 def handle_message(camera_poses):
     print(f'camera_poses:{request.sid} {camera_poses}')
+    
+    prompt["60"]["inputs"]["prompt"] = camera_poses["prompt"]
     prompt["60"]["inputs"]["camera"] = camera_poses["camera_poses"]
     prompt["60"]["inputs"]["traj"] = camera_poses["trajs"]
     images = get_images(ws, prompt)
