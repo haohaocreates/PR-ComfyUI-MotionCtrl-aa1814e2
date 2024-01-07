@@ -4,3 +4,4 @@
 *.pyc
 gradio_temp
 *.pth
+/turbo/dist/index.html

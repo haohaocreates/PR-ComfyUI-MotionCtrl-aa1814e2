@@ -11,6 +11,90 @@ let roomid=new Date().getTime();
 
 let cposes=[];
 let cmatrix=[];
+let userDrawnPixels1024=[];
+
+var canvas,ctx;
+var mouseX,mouseY,moving, mouseDown=0;
+function getTouchPos(e) {
+    if (!e)
+        var e = event;
+
+    if(e.touches) {
+        if (e.touches.length == 1) {
+            var touch = e.touches[0];
+            mouseX=touch.pageX-touch.target.offsetLeft;
+            mouseY=touch.pageY-touch.target.offsetTop;
+        }
+    }
+}
+function sketchpad_mouseDown(e) {
+    getMousePos(e);
+    userDrawnPixelsPush([mouseX, mouseY]);
+    mouseDown=1;
+}
+function mouseOrTouchUp(e) {
+    mouseDown=0;
+    moving=0;
+
+    if(!mouseX){
+        getMousePos(e);
+        userDrawnPixelsPush([mouseX, mouseY]);
+        moving=1;
+    }else{
+        getMousePos(e);
+        userDrawnPixelsPush([mouseX, mouseY]);
+        moving=1;
+    }
+}
+
+function sketchpad_mouseMove(e) {
+    getMousePos(e);
+
+    if (mouseDown==1) {
+        userDrawnPixelsPush([mouseX, mouseY]);
+        moving=1;
+    }
+}
+
+function getMousePos(e) {
+    if (!e)
+        var e = event;
+
+    if (e.offsetX) {
+        mouseX = e.offsetX;
+        mouseY = e.offsetY;
+    }
+    else if (e.layerX) {
+        mouseX = e.layerX;
+        mouseY = e.layerY;
+    }
+}
+
+function sketchpad_touchStart(e) {
+    getTouchPos(e);
+    userDrawnPixelsPush([mouseX, mouseY]);
+    event.preventDefault();
+
+    moving=1;
+    mouseDown=1;
+}
+
+function sketchpad_touchMove(e) {
+    getTouchPos(e);
+    userDrawnPixelsPush([mouseX, mouseY]);
+
+    event.preventDefault();
+}
+
+function userDrawnPixelsPush(point){
+    if(userDrawnPixels1024.length==0&&point[0]!=null){
+        userDrawnPixels1024.push([point[0]*4,point[1]*4]);
+    }else{
+        if(point[0]!=null&&(userDrawnPixels1024[userDrawnPixels1024.length-1][0]!=point[0]*4||userDrawnPixels1024[userDrawnPixels1024.length-1][1]!=point[1]*4)){
+            userDrawnPixels1024.push([point[0]*4,point[1]*4]);
+        }
+    }
+}
 
 var socket = io();
 socket.on('connect', function() {
@@ -23,17 +107,15 @@ socket.on("server_response", function (msg,ack) {
     //接收到后端发送过来的消息
     var b64img = msg.b64img;
     if(!b64img)return;
-    const imageContainer = document.querySelector('.imageContainer');
 
     var image = new Image();
     image.src = 'data:image/jpeg;base64,' + b64img;
 
-    while (imageContainer.firstChild) {
-        imageContainer.removeChild(imageContainer.firstChild);
-    }
-
-    imageContainer.prepend(image);
-  });
+    image.onload=function(){
+        ctx.drawImage(image,0,0,256,256);
+        drawDot(ctx,userDrawnPixels1024[userDrawnPixels1024.length-1][0]/4,userDrawnPixels1024[userDrawnPixels1024.length-1][1]/4,6);
+    };
+ });
 
 init();
 render();
@@ -47,16 +129,26 @@ function detect_change(){
     matrix[11]=cameraPerspTransform.position.z;
     matrix=matrix.slice(0, 12);
 
+    if(!userDrawnPixels1024.length){
+        userDrawnPixels1024=[[128*4,128*4]];
+    }
+
     if(JSON.stringify(cmatrix)!=JSON.stringify(matrix)){
-        cposes.push(matrix);
+        if(userDrawnPixels1024.length>=16){
+            socket.emit('camera_poses', {roomid:roomid,camera_poses:JSON.stringify(cposes),trajs:JSON.stringify(userDrawnPixels1024)});
+            userDrawnPixels1024=[userDrawnPixels1024[userDrawnPixels1024.length-1]];
+            cposes=[matrix];
+        }else{
+            cposes.push(matrix);
+        }
         cmatrix=matrix;
     }else{
-        if(cposes.length){
-            console.log(cposes);
-            socket.emit('camera_poses', {roomid:roomid,camera_poses:JSON.stringify(cposes)});
+        if(cposes.length>1||userDrawnPixels1024.length>=16){
+            socket.emit('camera_poses', {roomid:roomid,camera_poses:JSON.stringify(cposes),trajs:JSON.stringify(userDrawnPixels1024)});
+            userDrawnPixels1024=[userDrawnPixels1024[userDrawnPixels1024.length-1]];
         }
 
-        cposes=[];
+        cposes=[matrix];
     }
 
     setTimeout(function(){
@@ -64,7 +156,37 @@ function detect_change(){
     },100);
 }
 
+function drawDot(ctx, x, y, size) {
+    ctx.fillStyle = "lightgrey";
+
+    ctx.beginPath();
+    // Draw a filled circle
+    ctx.arc(x, y, size, 0, Math.PI*2, true);
+    ctx.closePath();
+    ctx.fill();
+}
+
 function init() {
+    canvas = document.getElementById('canvas');
+
+    canvas.width  = 256;
+    canvas.height = 256;
+
+    if (canvas.getContext)
+    ctx = canvas.getContext('2d');
+    drawDot(ctx,128,128,6);
+
+    if (ctx) {
+        // React to mouse events on the canvas, and mouseup on the entire document
+        canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
+        canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
+        canvas.addEventListener('mouseup', mouseOrTouchUp, false);
+
+        // React to touch events on the canvas
+        canvas.addEventListener('touchstart', sketchpad_touchStart, false);
+        canvas.addEventListener('touchmove', sketchpad_touchMove, false);
+        canvas.addEventListener('touchend', mouseOrTouchUp, false);
+    }
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );

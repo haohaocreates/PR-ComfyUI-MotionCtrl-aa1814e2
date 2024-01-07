@@ -14,6 +14,30 @@ from PIL import Image
 import io
 import base64
 
+import time
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+class FileCreatedHandler(FileSystemEventHandler):
+    def on_created(self, event):
+        # 处理文件创建完成的逻辑
+        file_path = event.src_path
+        file_name = os.path.basename(file_path)
+        print(f"New file created: {file_name}")
+        
+        time.sleep(.1)
+        with open(file_path, 'rb') as fr:
+            image_data=fr.read()
+            b64img=base64.b64encode(image_data).decode('utf-8')
+            socketio.emit('server_response',{'b64img':b64img})
+
+folder_to_watch = "/home/admin/ComfyUI/output/motionctrl"  # 要监控的文件夹路径
+
+event_handler = FileCreatedHandler()  # 创建我们刚才定义的自定义处理类的实例
+observer = Observer()
+observer.schedule(event_handler, folder_to_watch, recursive=False)
+observer.start()
+
 server_address = "127.0.0.1:8188"
 client_id = str(uuid.uuid4())
 
@@ -36,6 +60,7 @@ def get_history(prompt_id):
 def get_images(ws, prompt):
     prompt_id = queue_prompt(prompt)['prompt_id']
     output_images = {}
+    '''
     while True:
         out = ws.recv()
         if isinstance(out, str):
@@ -59,6 +84,7 @@ def get_images(ws, prompt):
             output_images[node_id] = images_output
 
     return output_images
+    '''
 
 prompt={}
 with open('./workflow_api_motionctrl_turbo.json') as fr:
@@ -105,11 +131,14 @@ def handle_message(message):
 def handle_message(camera_poses):
     print(f'camera_poses:{request.sid} {camera_poses}')
     prompt["60"]["inputs"]["camera"] = camera_poses["camera_poses"]
+    prompt["60"]["inputs"]["traj"] = camera_poses["trajs"]
     images = get_images(ws, prompt)
+    '''
     for node_id in images:
         for image_data in images[node_id]:
             b64img=base64.b64encode(image_data).decode('utf-8')
             socketio.emit('server_response',{'b64img':b64img}, to=camera_poses["roomid"])
+    '''
 
 @socketio.on('server_reconnect')
 def server_reconnect(message):

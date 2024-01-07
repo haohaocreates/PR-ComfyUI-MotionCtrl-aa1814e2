@@ -54,7 +54,7 @@
   },
   "59": {
     "inputs": {
-      "filename_prefix": "motionctrl",
+      "filename_prefix": "motionctrl/motionctrl",
       "images": [
         "57",
         0
