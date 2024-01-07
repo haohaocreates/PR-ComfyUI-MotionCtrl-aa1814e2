@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+		<title>CAMERA MOTION DESIGNER</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+        <div id="info"><button id="btn_translate">Translate</button><button id="btn_rotate">Rotate</button>
+		<button id="btn_addpoint" style="display:none;">Add Point</button>
+			<!--"W" translate | "E" rotate--><br />
+            <!--textarea id="tb_result" style="width:256px; height:128px;">[]</textarea><br/-->
+            <button id="btn_startrt">Start Real Time MotionCtrl</button><br/>
+			<div style="width:256px;height:256px;" class="imageContainer"></div>
+		</div>
+		<script type="module" src="main.js"></script>
+	</body>
+</html>
