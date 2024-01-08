@@ -130,7 +130,15 @@ def handle_message(message):
 @socketio.on('camera_poses')
 def handle_message(camera_poses):
     print(f'camera_poses:{request.sid} {camera_poses}')
-    
+    cams=json.loads(camera_poses["camera_poses"])
+    trajs=json.loads(camera_poses["trajs"])
+    if len(cams)>1 and len(trajs)>1:
+        prompt["60"]["inputs"]["infer_mode"] = "control both camera and object motion"
+    elif len(trajs)>1:
+        prompt["60"]["inputs"]["infer_mode"] = "control object trajectory"
+    else:
+        prompt["60"]["inputs"]["infer_mode"] = "control camera poses"
+
     prompt["60"]["inputs"]["prompt"] = camera_poses["prompt"]
     prompt["60"]["inputs"]["camera"] = camera_poses["camera_poses"]
     prompt["60"]["inputs"]["traj"] = camera_poses["trajs"]
