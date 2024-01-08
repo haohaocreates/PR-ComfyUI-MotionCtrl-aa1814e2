@@ -1,6 +1,6 @@
 {
-  "last_node_id": 26,
-  "last_link_id": 34,
+  "last_node_id": 30,
+  "last_link_id": 56,
   "nodes": [
     {
       "id": 9,
@@ -14,7 +14,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 13,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -52,7 +52,7 @@
         "1": 190
       },
       "flags": {},
-      "order": 9,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -109,7 +109,7 @@
         "1": 166
       },
       "flags": {},
-      "order": 15,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -258,7 +258,7 @@
         "1": 200
       },
       "flags": {},
-      "order": 11,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -344,7 +344,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 18,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -384,7 +384,7 @@
         539
       ],
       "flags": {},
-      "order": 19,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -411,7 +411,7 @@
           "hidden": false,
           "paused": false,
           "params": {
-            "filename": "AnimateDiff_00451.mp4",
+            "filename": "AnimateDiff_00468.mp4",
             "subfolder": "",
             "type": "output",
             "format": "video/h264-mp4"
@@ -487,7 +487,7 @@
         "1": 246
       },
       "flags": {},
-      "order": 16,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -512,7 +512,7 @@
         "1": 262
       },
       "flags": {},
-      "order": 17,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -550,7 +550,7 @@
         "Node name for S&R": "KSampler"
       },
       "widgets_values": [
-        557139385238250,
+        540393992754865,
         "randomize",
         8,
         2,
@@ -571,13 +571,13 @@
         539
       ],
       "flags": {},
-      "order": 7,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 4
+          "link": 48
         }
       ],
       "outputs": [],
@@ -598,7 +598,7 @@
           "hidden": false,
           "paused": false,
           "params": {
-            "filename": "AnimateDiff_00450.gif",
+            "filename": "AnimateDiff_00467.gif",
             "subfolder": "",
             "type": "output",
             "format": "image/gif"
@@ -639,45 +639,6 @@
       ]
     },
     {
-      "id": 19,
-      "type": "CLIPTextEncode",
-      "pos": [
-        754,
-        1150
-      ],
-      "size": {
-        "0": 400,
-        "1": 200
-      },
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 15
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            24
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        "a leaf"
-      ]
-    },
-    {
       "id": 18,
       "type": "EmptyLatentImage",
       "pos": [
@@ -712,57 +673,18 @@
       ]
     },
     {
-      "id": 26,
-      "type": "Select Image Indices",
-      "pos": [
-        475,
-        114
-      ],
-      "size": {
-        "0": 315,
-        "1": 58
-      },
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 33
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            34
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "Select Image Indices"
-      },
-      "widgets_values": [
-        "0,4,7,11,15,19,23,27,31"
-      ]
-    },
-    {
       "id": 8,
       "type": "ImageScale",
       "pos": [
-        474,
-        247
+        209,
+        199
       ],
       "size": {
         "0": 315,
         "1": 130
       },
       "flags": {},
-      "order": 12,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -797,15 +719,15 @@
       "id": 25,
       "type": "FakeScribblePreprocessor",
       "pos": [
-        469,
-        457
+        232,
+        449
       ],
       "size": {
         "0": 319.20001220703125,
         "1": 82
       },
       "flags": {},
-      "order": 14,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -835,57 +757,337 @@
       ]
     },
     {
-      "id": 3,
-      "type": "Motionctrl Sample",
+      "id": 26,
+      "type": "Select Image Indices",
       "pos": [
-        11,
-        110
+        207,
+        35
       ],
       "size": {
-        "0": 400,
-        "1": 344
+        "0": 315,
+        "1": 58
       },
       "flags": {},
-      "order": 4,
+      "order": 12,
       "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 47
+        }
+      ],
       "outputs": [
         {
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            4,
-            33
+            34
           ],
           "shape": 3,
           "slot_index": 0
         }
       ],
       "properties": {
-        "Node name for S&R": "Motionctrl Sample"
+        "Node name for S&R": "Select Image Indices"
+      },
+      "widgets_values": [
+        "0,4,7,11,15,19,23,27,31"
+      ]
+    },
+    {
+      "id": 27,
+      "type": "Load Motionctrl Checkpoint",
+      "pos": [
+        -660,
+        6
+      ],
+      "size": {
+        "0": 315,
+        "1": 142
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MOTIONCTRL",
+          "links": [
+            36,
+            50
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "clip",
+          "type": "EMBEDDER",
+          "links": [
+            37
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "links": [
+            38
+          ],
+          "shape": 3,
+          "slot_index": 2
+        },
+        {
+          "name": "ddim_sampler",
+          "type": "SAMPLER",
+          "links": [
+            39
+          ],
+          "shape": 3,
+          "slot_index": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Load Motionctrl Checkpoint"
+      },
+      "widgets_values": [
+        "motionctrl.pth",
+        32
+      ]
+    },
+    {
+      "id": 29,
+      "type": "Motionctrl Sample Simple",
+      "pos": [
+        -181,
+        -7
+      ],
+      "size": {
+        "0": 315,
+        "1": 378
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MOTIONCTRL",
+          "link": 36
+        },
+        {
+          "name": "clip",
+          "type": "EMBEDDER",
+          "link": 37
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 38
+        },
+        {
+          "name": "ddim_sampler",
+          "type": "SAMPLER",
+          "link": 39
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 49
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 51
+        },
+        {
+          "name": "traj_list",
+          "type": "TRAJ_LIST",
+          "link": 52
+        },
+        {
+          "name": "rt_list",
+          "type": "RT_LIST",
+          "link": 53
+        },
+        {
+          "name": "traj",
+          "type": "TRAJ_FEATURES",
+          "link": 54
+        },
+        {
+          "name": "rt",
+          "type": "RT",
+          "link": 55
+        },
+        {
+          "name": "noise_shape",
+          "type": "NOISE_SHAPE",
+          "link": 56
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            47,
+            48
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Motionctrl Sample Simple"
+      },
+      "widgets_values": [
+        30,
+        1874,
+        "randomize",
+        "https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html",
+        false,
+        false
+      ]
+    },
+    {
+      "id": 30,
+      "type": "Motionctrl Cond",
+      "pos": [
+        -702,
+        332
+      ],
+      "size": {
+        "0": 400,
+        "1": 320
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MOTIONCTRL",
+          "link": 50
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            49
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            51
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "traj_list",
+          "type": "TRAJ_LIST",
+          "links": [
+            52
+          ],
+          "shape": 3,
+          "slot_index": 2
+        },
+        {
+          "name": "rt_list",
+          "type": "RT_LIST",
+          "links": [
+            53
+          ],
+          "shape": 3,
+          "slot_index": 3
+        },
+        {
+          "name": "traj",
+          "type": "TRAJ_FEATURES",
+          "links": [
+            54
+          ],
+          "shape": 3,
+          "slot_index": 4
+        },
+        {
+          "name": "rt",
+          "type": "RT",
+          "links": [
+            55
+          ],
+          "shape": 3,
+          "slot_index": 5
+        },
+        {
+          "name": "noise_shape",
+          "type": "NOISE_SHAPE",
+          "links": [
+            56
+          ],
+          "shape": 3,
+          "slot_index": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Motionctrl Cond"
       },
       "widgets_values": [
         "a girl jump",
         "[[1,0,0,-0.2,0,1,0,0,0,0,1,0]]",
         "[[84,752],[96,556],[128,424],[156,320],[184,252],[232,188],[272,144],[328,108],[384,92],[440,92],[488,88],[620,116],[680,116],[764,132],[804,144],[872,252],[884,344],[916,440],[904,568],[888,628],[828,708],[760,764],[704,816],[616,848],[516,876],[420,876],[336,876],[288,868],[196,844],[136,816],[88,792],[68,740]]",
-        32,
-        50,
-        2048,
-        "fixed",
-        "https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html",
-        false,
-        false
+        "control both camera and object motion"
+      ]
+    },
+    {
+      "id": 19,
+      "type": "CLIPTextEncode",
+      "pos": [
+        754,
+        1150
+      ],
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            24
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "a girl jump"
       ]
     }
   ],
   "links": [
-    [
-      4,
-      3,
-      0,
-      6,
-      0,
-      "IMAGE"
-    ],
     [
       6,
       8,
@@ -1055,20 +1257,124 @@
       "IMAGE"
     ],
     [
-      33,
-      3,
-      0,
-      26,
-      0,
-      "IMAGE"
-    ],
-    [
       34,
       26,
       0,
       8,
       0,
       "IMAGE"
+    ],
+    [
+      36,
+      27,
+      0,
+      29,
+      0,
+      "MOTIONCTRL"
+    ],
+    [
+      37,
+      27,
+      1,
+      29,
+      1,
+      "EMBEDDER"
+    ],
+    [
+      38,
+      27,
+      2,
+      29,
+      2,
+      "VAE"
+    ],
+    [
+      39,
+      27,
+      3,
+      29,
+      3,
+      "SAMPLER"
+    ],
+    [
+      47,
+      29,
+      0,
+      26,
+      0,
+      "IMAGE"
+    ],
+    [
+      48,
+      29,
+      0,
+      6,
+      0,
+      "IMAGE"
+    ],
+    [
+      49,
+      30,
+      0,
+      29,
+      4,
+      "CONDITIONING"
+    ],
+    [
+      50,
+      27,
+      0,
+      30,
+      0,
+      "MOTIONCTRL"
+    ],
+    [
+      51,
+      30,
+      1,
+      29,
+      5,
+      "CONDITIONING"
+    ],
+    [
+      52,
+      30,
+      2,
+      29,
+      6,
+      "TRAJ_LIST"
+    ],
+    [
+      53,
+      30,
+      3,
+      29,
+      7,
+      "RT_LIST"
+    ],
+    [
+      54,
+      30,
+      4,
+      29,
+      8,
+      "TRAJ_FEATURES"
+    ],
+    [
+      55,
+      30,
+      5,
+      29,
+      9,
+      "RT"
+    ],
+    [
+      56,
+      30,
+      6,
+      29,
+      10,
+      "NOISE_SHAPE"
     ]
   ],
   "groups": [],

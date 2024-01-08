@@ -30,7 +30,7 @@ base workflow
 
 <img src="assets/base_wf.png" raw=true>
 
-https://github.com/chaojie/ComfyUI-MotionCtrl/blob/main/workflow_base.json
+https://github.com/chaojie/ComfyUI-MotionCtrl/blob/main/workflow_motionctrl_base.json
 
 <video controls autoplay="true">
     <source 

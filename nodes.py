@@ -184,6 +184,7 @@ class LoadMotionTrajPreset:
         points = read_points(f'{comfy_path}/custom_nodes/ComfyUI-MotionCtrl/examples/trajectories/{motion_traj}.txt',frame_length)
         return (json.dumps(points),)
 
+MODE = ["control camera poses", "control object trajectory", "control both camera and object motion"]
 class MotionctrlLoader:
     @classmethod
     def INPUT_TYPES(cls):
@@ -221,6 +222,7 @@ class MotionctrlLoader:
 
         return (model,model.cond_stage_model,model.first_stage_model,ddim_sampler,)
 
+
 class MotionctrlCond:
     @classmethod
     def INPUT_TYPES(cls):
@@ -230,15 +232,16 @@ class MotionctrlCond:
                 "prompt": ("STRING", {"multiline": True, "default":"a rose swaying in the wind"}),
                 "camera": ("STRING", {"multiline": True, "default":"[[1,0,0,0,0,1,0,0,0,0,1,0.2]]"}),
                 "traj": ("STRING", {"multiline": True, "default":"[[117, 102]]"}),
+                "infer_mode": (MODE, {"default":"control both camera and object motion"})
             }
         }
         
-    RETURN_TYPES = ("CONDITIONING", "CONDITIONING","TRAJ","RT","NOISE_SHAPE",)
-    RETURN_NAMES = ("positive", "negative","traj","rt","noise_shape",)
+    RETURN_TYPES = ("CONDITIONING", "CONDITIONING","TRAJ_LIST","RT_LIST","TRAJ_FEATURES","RT","NOISE_SHAPE")
+    RETURN_NAMES = ("positive", "negative","traj_list","rt_list","traj","rt","noise_shape")
     FUNCTION = "load_cond"
     CATEGORY = "motionctrl"
 
-    def load_cond(self, model, prompt, camera, traj):
+    def load_cond(self, model, prompt, camera, traj,infer_mode):
         frame_length=model.temporal_length
         prompts = prompt
         RT = process_camera(camera,frame_length).reshape(-1,12)
@@ -261,15 +264,30 @@ class MotionctrlCond:
         #frames = frame_length
         noise_shape = [1, channels, frames, h, w]
 
-        camera_poses = RT
-        trajs = traj_flow
-        camera_poses = torch.tensor(camera_poses).float()
-        trajs = torch.tensor(trajs).float()
-        camera_poses = camera_poses.unsqueeze(0)
-        trajs = trajs.unsqueeze(0)
-        if torch.cuda.is_available():
-            camera_poses = camera_poses.cuda()
-            trajs = trajs.cuda()
+        if infer_mode == MODE[0]:
+            camera_poses = RT
+            camera_poses = torch.tensor(camera_poses).float()
+            camera_poses = camera_poses.unsqueeze(0)
+            trajs = None
+            if torch.cuda.is_available():
+                camera_poses = camera_poses.cuda()
+        elif infer_mode == MODE[1]:
+            trajs = traj_flow
+            trajs = torch.tensor(trajs).float()
+            trajs = trajs.unsqueeze(0)
+            camera_poses = None
+            if torch.cuda.is_available():
+                trajs = trajs.cuda()
+        else:
+            camera_poses = RT
+            trajs = traj_flow
+            camera_poses = torch.tensor(camera_poses).float()
+            trajs = torch.tensor(trajs).float()
+            camera_poses = camera_poses.unsqueeze(0)
+            trajs = trajs.unsqueeze(0)
+            if torch.cuda.is_available():
+                camera_poses = camera_poses.cuda()
+                trajs = trajs.cuda()
         
         batch_size = noise_shape[0]
         prompts=prompt
@@ -291,7 +309,7 @@ class MotionctrlCond:
             traj_features = model.get_traj_features(trajs)
         else:
             traj_features = None
-            
+        
         uc = None
         prompts = batch_size * [DEFAULT_NEGATIVE_PROMPT]
         uc = model.get_learned_conditioning(prompts)
@@ -301,7 +319,8 @@ class MotionctrlCond:
             un_motion = None
         uc = {"features_adapter": un_motion, "uc": uc}
 
-        return (cond,uc,traj,RT_list,noise_shape,)
+        return (cond,uc,traj,RT_list,traj_features,RT,noise_shape)
+
 
 
 class MotionctrlSampleSimple:
@@ -315,7 +334,9 @@ class MotionctrlSampleSimple:
                 "ddim_sampler": ("SAMPLER",),
                 "positive": ("CONDITIONING",),
                 "negative": ("CONDITIONING",),
-                "traj": ("TRAJ",),
+                "traj_list": ("TRAJ_LIST",),
+                "rt_list": ("RT_LIST",),
+                "traj": ("TRAJ_FEATURES",),
                 "rt": ("RT",),
                 "steps": ("INT", {"default": 50}),
                 "seed": ("INT", {"default": 1234}),
@@ -332,32 +353,8 @@ class MotionctrlSampleSimple:
     FUNCTION = "run_inference"
     CATEGORY = "motionctrl"
 
-    def run_inference(self,model,clip,vae,ddim_sampler,positive, negative,traj,rt,steps,seed,noise_shape,traj_tool="https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html",draw_traj_dot=False,draw_camera_dot=False):
-        RT = rt.reshape(-1,12)
+    def run_inference(self,model,clip,vae,ddim_sampler,positive, negative,traj_list,rt_list,traj,rt,steps,seed,noise_shape,traj_tool="https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html",draw_traj_dot=False,draw_camera_dot=False):
         frame_length=model.temporal_length
-        traj_flow = process_traj(traj,frame_length).transpose(3,0,1,2)
-        trajs = traj_flow
-        trajs = torch.tensor(trajs).float()
-        trajs = trajs.unsqueeze(0)
-        if torch.cuda.is_available():
-            trajs = trajs.cuda()
-            
-        traj_features = None
-        if trajs is not None:
-            traj_features = model.get_traj_features(trajs)
-        else:
-            traj_features = None
-
-        camera_poses = RT
-        camera_poses = torch.tensor(camera_poses).float()
-        camera_poses = camera_poses.unsqueeze(0)
-        if torch.cuda.is_available():
-            camera_poses = camera_poses.cuda()
-        
-        if camera_poses is not None:
-            RT = camera_poses[..., None]
-        else:
-            RT = None
 
         #noise_shape = [1, 4, 16, 32, 32]
         unconditional_guidance_scale = 7.5
@@ -389,8 +386,8 @@ class MotionctrlSampleSimple:
                                                 eta=ddim_eta,
                                                 temporal_length=noise_shape[2],
                                                 conditional_guidance_scale_temporal=unconditional_guidance_scale_temporal,
-                                                features_adapter=traj_features,
-                                                pose_emb=RT,
+                                                features_adapter=traj,
+                                                pose_emb=rt,
                                                 cond_T=cond_T
                                                 )        
             #print(f'{samples}')
@@ -401,7 +398,7 @@ class MotionctrlSampleSimple:
         batch_variants = torch.stack(batch_variants, dim=1)
         batch_variants = batch_variants[0]
         
-        ret = save_results(batch_variants, fps=10,traj=traj,draw_traj_dot=draw_traj_dot,cameras=rt,draw_camera_dot=draw_camera_dot)
+        ret = save_results(batch_variants, fps=10,traj=traj_list,draw_traj_dot=draw_traj_dot,cameras=rt_list,draw_camera_dot=draw_camera_dot)
         #print(ret)
         return ret
         
