@@ -6,10 +6,28 @@
     },
     "class_type": "Load Motionctrl Checkpoint"
   },
-  "57": {
+  "60": {
     "inputs": {
-      "steps": 12,
-      "seed": 1860,
+      "prompt": "a rose swaying in the wind",
+      "camera": "[[1,0,0,0,0,1,0,0,0,0,1,0.2]]",
+      "traj": "[[117, 102]]",
+      "infer_mode": "control camera poses",
+      "context_overlap": 4,
+      "model": [
+        "56",
+        0
+      ]
+    },
+    "class_type": "Motionctrl Cond"
+  },
+  "61": {
+    "inputs": {
+      "steps": 20,
+      "seed": 1647,
+      "context_overlap": [
+        "60",
+        7
+      ],
       "traj_tool": "https://chaojie.github.io/ComfyUI-MotionCtrl/tools/draw.html",
       "draw_traj_dot": false,
       "draw_camera_dot": false,
@@ -37,41 +55,37 @@
         "60",
         1
       ],
-      "traj": [
+      "traj_list": [
         "60",
         2
       ],
-      "rt": [
+      "rt_list": [
         "60",
         3
       ],
-      "noise_shape": [
+      "traj": [
         "60",
         4
+      ],
+      "rt": [
+        "60",
+        5
+      ],
+      "noise_shape": [
+        "60",
+        6
       ]
     },
     "class_type": "Motionctrl Sample Simple"
   },
-  "59": {
+  "62": {
     "inputs": {
       "filename_prefix": "motionctrl/motionctrl",
       "images": [
-        "57",
+        "61",
         0
       ]
     },
     "class_type": "SaveImage"
-  },
-  "60": {
-    "inputs": {
-      "prompt": "a rose swaying in the wind",
-      "camera": "[[1,0,0,0,0,1,0,0,0,0,1,0.2]]",
-      "traj": "[[117, 102]]",
-      "model": [
-        "56",
-        0
-      ]
-    },
-    "class_type": "Motionctrl Cond"
   }
 }
